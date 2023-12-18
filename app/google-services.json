@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "3258270869",
+    "project_id": "uas-ppapb",
+    "storage_bucket": "uas-ppapb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:3258270869:android:1363a776c17f7e258ac79c",
+        "android_client_info": {
+          "package_name": "com.example.tiket2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDG3PptHCCGWcM1GXRSqLqUk5hfXfoUI4c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:3258270869:android:d94170053858154e8ac79c",
+        "android_client_info": {
+          "package_name": "com.example.uas_ppapb"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDG3PptHCCGWcM1GXRSqLqUk5hfXfoUI4c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
