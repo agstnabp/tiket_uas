@@ -76,11 +76,11 @@ class MovieDetails : AppCompatActivity() {
                 usersCollectionRef.document(prefManager.getUsername()).get()
                     .addOnSuccessListener { document ->
                         if (document.exists()) {
-                            val storedFavorite = document.get("favorite") as MutableList<String>? ?: mutableListOf()
-                            storedFavorite.add(id.toString())
+                            val storedBookmark = document.get("bookmark") as MutableList<String>? ?: mutableListOf()
+                            storedBookmark.add(id.toString())
 
                             val mapDocument = HashMap<String, Any>()
-                            mapDocument["favorite"] = storedFavorite
+                            mapDocument["bookmark"] = storedBookmark
 
                             usersCollectionRef.document(prefManager.getUsername()).update(mapDocument).addOnCompleteListener { firestoreTask ->
                                 if (firestoreTask.isSuccessful) {
@@ -103,13 +103,13 @@ class MovieDetails : AppCompatActivity() {
                 usersCollectionRef.document(prefManager.getUsername()).get()
                     .addOnSuccessListener { document ->
                         if (document.exists()) {
-                            val storedFavorite = document.get("favorite") as MutableList<String>? ?: mutableListOf()
+                            val storedBookmark = document.get("bookmark") as MutableList<String>? ?: mutableListOf()
 
-                            if (storedFavorite.contains(id.toString())) {
-                                storedFavorite.remove(id.toString())
+                            if (storedBookmark.contains(id.toString())) {
+                                storedBookmark.remove(id.toString())
 
                                 val mapDocument = HashMap<String, Any>()
-                                mapDocument["favorite"] = storedFavorite
+                                mapDocument["bookmark"] = storedBookmark
 
                                 usersCollectionRef.document(prefManager.getUsername()).update(mapDocument)
                                     .addOnCompleteListener { firestoreTask ->

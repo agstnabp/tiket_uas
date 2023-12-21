@@ -74,6 +74,7 @@ class BookmarkFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentBookmarkBinding.bind(view)
 
+
         // Inisialisasi prefManager saat Fragment terhubung dengan Activity
         prefManager = PrefManager.getInstance(requireContext())
 
@@ -87,7 +88,7 @@ class BookmarkFragment : Fragment() {
                     putExtra(ListMovieFragment.EXTRA_IMAGE, it.gambar)
                     putExtra(ListMovieFragment.EXTRA_NAMA, it.nama)
                     putExtra(ListMovieFragment.EXTRA_DIREKTOR, it.direktor)
-                    putExtra(ListMovieFragment.EXTRA_RATING, it.rating.toString())
+                    putExtra(ListMovieFragment.EXTRA_RATING, it.rating)
                     putExtra(ListMovieFragment.EXTRA_STORY, it.storyline)
                     putExtra(ListMovieFragment.EXTRA_GENRE, it.genre.toTypedArray())
                 })
@@ -112,21 +113,21 @@ class BookmarkFragment : Fragment() {
                     // Dapatkan daftar ID film dari koleksi
                     movieCollectionRef.get()
                         .addOnSuccessListener { querySnapshotMovies ->
-                            // Filter nilai yang tidak ada di koleksi film
-                            val invalidBookmarks = storedBookmark.filter { id ->
+                            // Filter nilai favorit yang tidak ada di koleksi film
+                            val invalidFavorites = storedBookmark.filter { id ->
                                 // Filter ID yang tidak ada di koleksi film
                                 !querySnapshotMovies.documents.any { it.id == id }
                             }
 
-                            // Jika ada nilai yang tidak valid, hapus dari stored
-                            if (invalidBookmarks.isNotEmpty()) {
-                                storedBookmark.removeAll(invalidBookmarks)
+                            // Jika ada nilai favorit yang tidak valid, hapus dari storedFavorite
+                            if (invalidFavorites.isNotEmpty()) {
+                                storedBookmark.removeAll(invalidFavorites)
 
-                                // Perbarui nilai  di usersCollectionRef menggunakan fungsi update()
+                                // Perbarui nilai "favorite" di usersCollectionRef menggunakan fungsi updateFavorite()
                                 updateBookmark(storedBookmark)
                             }
 
-                            // Ambil data film untuk nilai yang valid
+                            // Ambil data film untuk nilai favorit yang valid
                             movieCollectionRef.whereIn(FieldPath.documentId(), storedBookmark).get()
                                 .addOnSuccessListener { querySnapshot ->
                                     movieList.clear()
@@ -167,11 +168,11 @@ class BookmarkFragment : Fragment() {
 
         usersCollectionRef.document(prefManager.getUsername()).update(mapDocument)
             .addOnSuccessListener {
-                Log.d("BookmarkFragment", "Updated marked successfully")
+                Log.d("BookmarkFragment", "Updated favorite successfully")
             }
             .addOnFailureListener { exception ->
-                Log.d("BookmarkFragment", "Error updating marked", exception)
-                Toast.makeText(activity, "Error updating marked", Toast.LENGTH_SHORT).show()
+                Log.d("BookmarkFragment", "Error updating favorite", exception)
+                Toast.makeText(activity, "Error updating favorite", Toast.LENGTH_SHORT).show()
             }
     }
 }
