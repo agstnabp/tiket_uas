@@ -6,5 +6,6 @@ data class Users(
     var email: String = "",
     var phone: String = "",
     var password: String = "",
-    var role: String = ""
+    var role: String = "",
+    var bookmark: List<String>?
 )

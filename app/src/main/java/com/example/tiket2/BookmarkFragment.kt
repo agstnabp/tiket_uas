@@ -127,28 +127,39 @@ class BookmarkFragment : Fragment() {
                                 updateBookmark(storedBookmark)
                             }
 
-                            // Ambil data film untuk nilai favorit yang valid
-                            movieCollectionRef.whereIn(FieldPath.documentId(), storedBookmark).get()
-                                .addOnSuccessListener { querySnapshot ->
-                                    movieList.clear()
-                                    for (document in querySnapshot.documents) {
-                                        val movieData = MovieData(
-                                            document.id,
-                                            document.getString("gambar") ?: "",
-                                            document.getString("nama") ?: "",
-                                            document.getString("rating") ?: "",
-                                            document.getString("direktor") ?: "",
-                                            document.get("genre") as List<String>? ?: listOf(),
-                                            document.getString("storyline") ?: ""
-                                        )
-                                        movieList.add(movieData)
+                            if(storedBookmark.isNotEmpty()) {
+                                // Ambil data film untuk nilai favorit yang valid
+                                movieCollectionRef.whereIn(FieldPath.documentId(), storedBookmark)
+                                    .get()
+                                    .addOnSuccessListener { querySnapshot ->
+                                        movieList.clear()
+                                        for (document in querySnapshot.documents) {
+                                            val movieData = MovieData(
+                                                document.id,
+                                                document.getString("gambar") ?: "",
+                                                document.getString("nama") ?: "",
+                                                document.getString("rating") ?: "",
+                                                document.getString("direktor") ?: "",
+                                                document.get("genre") as List<String>? ?: listOf(),
+                                                document.getString("storyline") ?: ""
+                                            )
+                                            movieList.add(movieData)
+                                        }
+                                        movieAdapter.notifyDataSetChanged()
                                     }
-                                    movieAdapter.notifyDataSetChanged()
-                                }
-                                .addOnFailureListener { exception ->
-                                    Log.d("BookmarkFragment", "Error fetching movie data", exception)
-                                    Toast.makeText(activity, "Error fetching movie data", Toast.LENGTH_SHORT).show()
-                                }
+                                    .addOnFailureListener { exception ->
+                                        Log.d(
+                                            "BookmarkFragment",
+                                            "Error fetching movie data",
+                                            exception
+                                        )
+                                        Toast.makeText(
+                                            activity,
+                                            "Error fetching movie data",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                            }
                         }
                         .addOnFailureListener { exception ->
                             Log.d("BookmarkFragment", "Error fetching movie collection data", exception)

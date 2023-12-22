@@ -72,6 +72,26 @@ class MovieDetails : AppCompatActivity() {
                 finish()
             }
 
+            usersCollectionRef.document(prefManager.getUsername()).get()
+                .addOnSuccessListener { document ->
+                    if (document.exists()) {
+                        val storedBookmark = document.get("bookmark") as MutableList<String>? ?: mutableListOf()
+
+                        if (storedBookmark.contains(id.toString())) {
+                            btnsave.visibility = View.GONE
+                            btnunsave.visibility = View.VISIBLE
+                        } else {
+                            btnsave.visibility = View.VISIBLE
+                            btnunsave.visibility = View.GONE
+                        }
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.d("MovieDetailsActivity", "Tidak ada koneksi internet", exception)
+                    Toast.makeText(this@MovieDetails, "Tidak ada koneksi internet", Toast.LENGTH_SHORT).show()
+                }
+
+
             btnsave.setOnClickListener {
                 usersCollectionRef.document(prefManager.getUsername()).get()
                     .addOnSuccessListener { document ->

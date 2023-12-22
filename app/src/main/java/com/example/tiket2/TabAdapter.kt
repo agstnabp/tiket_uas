@@ -17,5 +17,4 @@ class TabAdapter(act:AppCompatActivity) : FragmentStateAdapter(act) {
         }
     }
 
-
 }

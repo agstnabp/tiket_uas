@@ -85,7 +85,8 @@ class RegisterFragment : Fragment() {
                                 email = savedEmail,
                                 phone = savedPhone,
                                 password = savedPassword,
-                                role = "user"
+                                role = "user",
+                                bookmark = emptyList()
                             )
                             addUser(newUser)
                         }
